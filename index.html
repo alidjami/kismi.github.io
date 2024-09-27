@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Application d'apprentissage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            font-size: 18px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right div {
+            margin-left: 20px;
+        }
+
+        .language-select {
+            background-color: white;
+            color: black;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .join-button-header {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .join-button-header:hover {
+            background-color: #218838;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        main h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        main p {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        aside {
+            position: absolute;
+            top: 100px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        aside ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        aside ul li {
+            margin: 10px 0;
+        }
+
+        aside ul li button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        aside ul li button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            padding: 10px 20px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal-content input {
+            width: calc(100% - 20px); /* Réduction de 10px */
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-content button:hover {
+            background-color: #218838;
+        }
+
+        .modal-content .links {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .modal-content a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .modal-content a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left" id="username-text">
+            Connecté en tant que : <span id="username">Utilisateur</span>
+        </div>
+        <div class="header-right">
+            <div>
+                <label for="language" id="language-label">Langue :</label>
+                <select id="language" class="language-select" onchange="changeLanguage()">
+                    <option value="fr">Français</option>
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            <button class="join-button-header" id="join-button" onclick="openModal()">Rejoindre</button>
+        </div>
+    </header>
+
+    <main>
+        <div>
+            <h1 id="welcome-text">Bienvenue sur notre plateforme d'apprentissage</h1>
+            <p id="description-text">Accédez à des exercices et évaluations dans différentes matières pour tous les niveaux.</p>
+        </div>
+    </main>
+
+    <aside id="subject-menu-container">
+        <ul id="subject-menu">
+            <li><button id="math-button">Mathématiques</button></li>
+            <li><button id="french-button">Français</button></li>
+            <li><button id="physics-button">Physiques</button></li>
+            <li><button id="english-button">Anglais</button></li>
+        </ul>
+    </aside>
+
+    <footer>
+        <span id="footer-text">© 2024 - Application d'apprentissage scolaire</span>
+    </footer>
+
+    <!-- Modal for login -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="login-title">Connexion</h2>
+            <input type="text" id="username-input" placeholder="Nom d'utilisateur">
+            <input type="password" id="password-input" placeholder="Mot de passe">
+            <button id="login-button">Se connecter</button>
+            <div class="links">
+                <a href="#" id="forgot-password-link">Mot de passe oublié ?</a><br>
+                <a href="#" id="create-account-link">Créer un nouveau compte</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            fr: {
+                usernameText: "Connecté en tant que :",
+                welcomeText: "Bienvenue sur notre plateforme d'apprentissage",
+                descriptionText: "Accédez à des exercices et évaluations dans différentes matières pour tous les niveaux.",
+                joinButton: "Rejoindre",
+                logoutButton: "Se déconnecter",
+                languageLabel: "Langue :",
+                subjects: {
+                    math: "Mathématiques",
+                    french: "Français",
+                    physics: "Physiques",
+                    english: "Anglais"
+                },
+                footerText: "© 2024 - Application d'apprentissage scolaire",
+                loginTitle: "Connexion",
+                usernamePlaceholder: "Nom d'utilisateur",
+                passwordPlaceholder: "Mot de passe",
+                loginButton: "Se connecter",
+                forgotPassword: "Mot de passe oublié ?",
+                createAccount: "Créer un nouveau compte",
+                menuPosition: "left"
+            },
+            ar: {
+                usernameText: "متصل باسم:",
+                welcomeText: "مرحبًا بكم في منصتنا التعليمية",
+                descriptionText: "الوصول إلى التمارين والتقييمات في مختلف المواد لكل المستويات.",
+                joinButton: "انضمام",
+                logoutButton: "تسجيل الخروج",
+                languageLabel: "اللغة:",
+                subjects: {
+                    math: "الرياضيات",
+                    french: "الفرنسية",
+                    physics: "الفيزياء",
+                    english: "الإنجليزية"
+                },
+                footerText: "© 2024 - تطبيق التعلم المدرسي",
+                loginTitle: "تسجيل الدخول",
+                usernamePlaceholder: "اسم المستخدم",
+                passwordPlaceholder: "كلمة المرور",
+                loginButton: "تسجيل الدخول",
+                forgotPassword: "هل نسيت كلمة المرور؟",
+                createAccount: "إنشاء حساب جديد",
+                menuPosition: "right"
+            },
+            en: {
+                usernameText: "Logged in as:",
+                welcomeText: "Welcome to our learning platform",
+                descriptionText: "Access exercises and evaluations in various subjects for all levels.",
+                joinButton: "Join",
+                logoutButton: "Logout",
+                languageLabel: "Language:",
+                subjects: {
+                    math: "Mathematics",
+                    french: "French",
+                    physics: "Physics",
+                    english: "English"
+                },
+                footerText: "© 2024 - School Learning Application",
+                loginTitle: "Login",
+                usernamePlaceholder: "Username",
+                passwordPlaceholder: "Password",
+                loginButton: "Log in",
+                forgotPassword: "Forgot password?",
+                createAccount: "Create a new account",
+                menuPosition: "left"
+            }
+        };
+
+        function changeLanguage() {
+            const selectedLang = document.getElementById("language").value;
+            const translation = translations[selectedLang];
+
+            document.getElementById("username-text").innerText = translation.usernameText;
+            document.getElementById("welcome-text").innerText = translation.welcomeText;
+            document.getElementById("description-text").innerText = translation.descriptionText;
+            document.getElementById("join-button").innerText = translation.joinButton;
+            document.getElementById("logout-button").innerText = translation.logoutButton;
+            document.getElementById("language-label").innerText = translation.languageLabel;
+
+            document.getElementById("math-button").innerText = translation.subjects.math;
+            document.getElementById("french-button").innerText = translation.subjects.french;
+            document.getElementById("physics-button").innerText = translation.subjects.physics;
+            document.getElementById("english-button").innerText = translation.subjects.english;
+
+            document.getElementById("footer-text").innerText = translation.footerText;
+
+            // Update modal content
+            document.getElementById("login-title").innerText = translation.loginTitle;
+            document.getElementById("username-input").placeholder = translation.usernamePlaceholder;
+            document.getElementById("password-input").placeholder = translation.passwordPlaceholder;
+            document.getElementById("login-button").innerText = translation.loginButton;
+            document.getElementById("forgot-password-link").innerText = translation.forgotPassword;
+            document.getElementById("create-account-link").innerText = translation.createAccount;
+
+            // Adjust the subject menu position (right for Arabic, left for other languages)
+            const subjectMenuContainer = document.getElementById("subject-menu-container");
+            if (translation.menuPosition === "right") {
+                subjectMenuContainer.style.right = "0";
+                subjectMenuContainer.style.left = "unset";
+            } else {
+                subjectMenuContainer.style.left = "0";
+                subjectMenuContainer.style.right = "unset";
+            }
+        }
+
+        function openModal() {
+            document.getElementById("login-modal").style.display = "flex";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("login-modal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Set default menu position based on the initial language (French)
+        changeLanguage();
+    </script>
+</body>
+</html>
